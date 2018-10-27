@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "WorldMapDragon_tex",
+    "texture": "aad28cb3-ca3a-4384-98dc-3787444bb860",
+    "atlas": "",
+    "rect": [
+      1,
+      1,
+      1000,
+      1000
+    ],
+    "offset": [
+      -11,
+      11
+    ],
+    "originalSize": [
+      1024,
+      1024
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "GlobeShadow",
+    "texture": "ac537664-1b9f-4c65-9691-e42615394de0",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      636,
+      636
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      636,
+      636
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
