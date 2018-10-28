@@ -1,1 +1,1 @@
-{"SubTexture":[{"x":1,"y":1,"width":1000,"name":"WorldMapHalf","height":1000}],"width":1024,"name":"WorldMapDragon","imagePath":"WorldMapDragon_tex.png","height":1024}
+{"width":500,"height":500,"name":"WorldMapDragon","imagePath":"WorldMapDragon_tex.jpg","SubTexture":[{"x":0,"y":0,"width":500,"height":500,"name":"WorldMapHalf"}]}

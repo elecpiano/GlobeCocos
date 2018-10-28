@@ -22,21 +22,26 @@ var GlobeController = /** @class */ (function (_super) {
         _this.CityNodePanel1 = null;
         _this.CityNodePanel2 = null;
         _this.CityLabelPanel = null;
+        _this.CityLabelOffsetH = 0;
+        _this.CityLabelOffsetV = 50;
+        _this.CityLabelOffsetV_MAX = 50;
+        _this.CITY_LABEL_SCALE_MAX = 1.5;
         _this.CAM = null;
         _this.RTXT = null;
         _this.MapSwitchThreshold = 200;
         _this.CityNodeList1 = new Array();
         _this.CityNodeList2 = new Array();
         _this.CityLabelList = new Array();
-        //#endregion
-        //#region Touch Event
-        _this.TouchStartPosition = new cc.Vec2(0, 0);
+        _this.GlobeAutoSpinning = true;
+        _this.GLOBE_AUTO_SPIN_SPEED = 20;
+        _this.TouchingPoints = new Array();
         return _this;
         //#endregion
     }
     //#endregion
     //#region Lifecycle
     GlobeController.prototype.onLoad = function () {
+        cc.game.addPersistRootNode(this.node);
         this.RegisterTouchEvent();
     };
     GlobeController.prototype.start = function () {
@@ -46,8 +51,31 @@ var GlobeController = /** @class */ (function (_super) {
         this.WorldMaps.scaleY = -1;
         this.LoadCity();
     };
+    GlobeController.prototype.update = function (dt) {
+        if (this.GlobeAutoSpinning) {
+            var delta = this.GLOBE_AUTO_SPIN_SPEED * dt;
+            this.DragMap(delta);
+        }
+    };
     //#endregion
     //#region Globe
+    GlobeController.prototype.DragMap = function (delta_x) {
+        this.WorldMaps.setPosition(this.WorldMaps.position.x + delta_x, 0);
+        this.UpdateFullWorldMap();
+    };
+    GlobeController.prototype.UpdateFullWorldMap = function () {
+        var offset = this.WorldMaps.position.x % 2000;
+        // this.debug_label.string = this.WorldMaps.position.x.toString() + "\n" + offset.toString();
+        this.WorldMaps.setPosition(offset, 0);
+        if (offset > this.MapSwitchThreshold) {
+            this.WorldMap2.setPosition(this.WorldMap1.position.x - 2000, 0);
+        }
+        else { //if(offset < 0 - this.MapSwitchThreshold) {
+            this.WorldMap2.setPosition(this.WorldMap1.position.x + 2000, 0);
+        }
+        this.UpdateGlobe();
+        this.UpdateCities();
+    };
     GlobeController.prototype.UpdateGlobe = function () {
         // this.FullWorldMap.node.setPosition(this.FullWorldMap.node.position.x + 30, this.FullWorldMap.node.position.y);
         if (this.RTXT == null) {
@@ -63,71 +91,10 @@ var GlobeController = /** @class */ (function (_super) {
         this.MonitorSprite.spriteFrame = sf;
         var data = new dragonBones.DragonBonesAtlasAsset();
         data.texture = this.RTXT;
-        data.atlasJson = "\n            {\"width\":960,\"height\":640,\n            \"SubTexture\":[{\"name\":\"WorldMap\",\"x\":100,\"y\":100,\"width\":300,\"height\":300}],\n            \"name\":\"NewProject\",\"imagePath\":\"NewProject_tex.png\"}\n            ";
+        data.atlasJson = "\n            {\"width\":2000,\"height\":1000,\n            \"SubTexture\":[{\"name\":\"WorldMap\",\"x\":1,\"y\":1,\"width\":1000,\"height\":1000}],\n            \"name\":\"WorldMapDragon\",\"imagePath\":\"WorldMap.jpg\"}\n            ";
         this.globe.dragonAtlasAsset = data;
     };
-    //#endregion
-    //#region City
-    GlobeController.prototype.LoadCity = function () {
-        this.AddCityNode("city1", 100, 200);
-        this.AddCityNode("city2", 300, -100);
-        this.AddCityNode("city3", 0, 0);
-        this.AddCityNode("city4", -100, -200);
-        this.AddCityNode("city5", 400, 300);
-        this.AddCityNode("city6", -400, 100);
-        this.AddCityNode("city7", 500, 200);
-        this.AddCityNode("city8", -500, 0);
-        this.AddCityNode("city9", 600, -100);
-    };
-    GlobeController.prototype.AddCityNode = function (cityName, x, y) {
-        var city = cc.instantiate(this.CityNodeTemplate);
-        city.name = cityName;
-        this.CityNodePanel1.addChild(city);
-        city.setPosition(x, y);
-        this.CityNodeList1.push(city);
-        city = cc.instantiate(this.CityNodeTemplate);
-        city.name = cityName;
-        this.CityNodePanel2.addChild(city);
-        city.setPosition(x, y);
-        this.CityNodeList2.push(city);
-        city = cc.instantiate(this.CityLabelTemplate.node);
-        var label = city.getComponent(cc.Label);
-        label.string = cityName;
-        city.name = cityName;
-        this.CityLabelPanel.addChild(city);
-        city.opacity = 0;
-        this.CityLabelList.push(city);
-    };
-    GlobeController.prototype.RegisterTouchEvent = function () {
-        var _this = this;
-        // touch start
-        this.node.on(cc.Node.EventType.TOUCH_START, function (e) {
-        }, this);
-        // touch move
-        this.node.on(cc.Node.EventType.TOUCH_MOVE, function (e) {
-            var delta = e.touch.getDelta();
-            _this.SetMapPosition(delta);
-        }, this);
-        // touch end
-        this.node.on(cc.Node.EventType.TOUCH_END, function (e) {
-        }, this);
-    };
-    GlobeController.prototype.SetMapPosition = function (delta) {
-        this.WorldMaps.setPosition(this.WorldMaps.position.x + delta.x, 0);
-        // this.debug_label.string = this.WorldMaps.position.x.toString();
-        var offset = this.WorldMaps.position.x % 2000;
-        // this.debug_label.string = this.WorldMaps.position.x.toString() + "\n" + offset.toString();
-        this.WorldMaps.setPosition(offset, 0);
-        if (offset > this.MapSwitchThreshold) {
-            this.WorldMap2.setPosition(this.WorldMap1.position.x - 2000, 0);
-        }
-        else { //if(offset < 0 - this.MapSwitchThreshold) {
-            this.WorldMap2.setPosition(this.WorldMap1.position.x + 2000, 0);
-        }
-        this.UpdateGlobe();
-        this.UpdateCities(delta);
-    };
-    GlobeController.prototype.UpdateCities = function (delta) {
+    GlobeController.prototype.UpdateCities = function () {
         // visibility
         var str = "";
         for (var _i = 0, _a = this.CityNodeList1; _i < _a.length; _i++) {
@@ -160,24 +127,146 @@ var GlobeController = /** @class */ (function (_super) {
         for (var _b = 0, _c = this.CityLabelList; _b < _c.length; _b++) {
             var node = _c[_b];
             if (node.name == city.name) {
-                var offset_H = Math.sin(angle_H) * radius;
-                node.setPosition(offset_H, distance_V);
+                var distance_H_1 = Math.sin(angle_H) * radius;
                 var scale = (1 + Math.abs(Math.cos(angle_H))) / 2;
+                var offsetV = this.CityLabelOffsetV * scale;
+                node.setPosition(distance_H_1 + this.CityLabelOffsetH, distance_V + offsetV);
                 node.setScale(scale);
-                node.opacity = opacity > 0 ? scale * 255 : 0;
+                node.opacity = scale * (opacity > 0 ? scale * 255 : 0);
                 break;
             }
+        }
+    };
+    GlobeController.prototype.OptimizeLabelFontSize = function (scale) {
+        if (scale > this.CITY_LABEL_SCALE_MAX) {
+            this.CityLabelOffsetV = this.CityLabelOffsetV_MAX * this.CITY_LABEL_SCALE_MAX / scale;
+            for (var _i = 0, _a = this.CityLabelList; _i < _a.length; _i++) {
+                var city = _a[_i];
+                var wrapper = city.getChildByName("label_wrapper");
+                wrapper.setScale(this.CITY_LABEL_SCALE_MAX / scale);
+            }
+        }
+        else {
+            // this.CityLabelOffsetV = this.CityLabelOffsetV_MAX;
+        }
+    };
+    GlobeController.prototype.GlobeZoom = function (scale) {
+        this.GlobePanel.setScale(scale);
+        this.OptimizeLabelFontSize(scale);
+    };
+    //#endregion
+    //#region City
+    GlobeController.prototype.LoadCity = function () {
+        this.AddCityNode("北京", 100, 200);
+        this.AddCityNode("斐济", 300, -100);
+        this.AddCityNode("东京", 0, 0);
+        this.AddCityNode("Las Vagas", -100, -200);
+        this.AddCityNode("布宜诺斯艾利斯", 400, 300);
+        this.AddCityNode("Stockholm", -400, 100);
+        this.AddCityNode("莫斯科", 500, 200);
+        this.AddCityNode("巴厘岛", -500, 0);
+        this.AddCityNode("Shenmi Island", 600, -100);
+    };
+    GlobeController.prototype.AddCityNode = function (cityName, x, y) {
+        var city = cc.instantiate(this.CityNodeTemplate);
+        city.name = cityName;
+        this.CityNodePanel1.addChild(city);
+        city.setPosition(x, y);
+        this.CityNodeList1.push(city);
+        city = cc.instantiate(this.CityNodeTemplate);
+        city.name = cityName;
+        this.CityNodePanel2.addChild(city);
+        city.setPosition(x, y);
+        this.CityNodeList2.push(city);
+        city = cc.instantiate(this.CityLabelTemplate);
+        var label = city.getComponentInChildren(cc.Label);
+        label.string = cityName;
+        city.name = cityName;
+        this.CityLabelPanel.addChild(city);
+        city.opacity = 0;
+        this.CityLabelList.push(city);
+    };
+    GlobeController.prototype.CityTapped = function (city) {
+        this.debug_label.string = city.name;
+    };
+    //#endregion
+    //#region Touch Event
+    GlobeController.prototype.RegisterTouchEvent = function () {
+        var _this = this;
+        // touch start
+        this.node.on(cc.Node.EventType.TOUCH_START, function (e) {
+            _this.GlobeAutoSpinning = false;
+            // this.debug_label.string = "start" + e.getID().toString();
+            _this.TrackTouchPoint(e.touch);
+        }, this);
+        // touch move
+        this.node.on(cc.Node.EventType.TOUCH_MOVE, function (e) {
+            var delta = e.touch.getDelta();
+            if (_this.TouchingPoints.length == 1) {
+                _this.DragMap(delta.x);
+            }
+            else if (_this.TouchingPoints.length == 2) {
+                _this.TouchZoom();
+            }
+        }, this);
+        // touch end
+        this.node.on(cc.Node.EventType.TOUCH_END, function (e) {
+            _this.GlobeAutoSpinning = true;
+            // this.debug_label.string = "end " + e.getID().toString();
+            _this.TryRemoveTouchingPoint(e.touch);
+        }, this);
+        // touch cancel
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (e) {
+            _this.GlobeAutoSpinning = true;
+            // this.debug_label.string = "cancel " + e.getID().toString();
+            _this.TryRemoveTouchingPoint(e.touch);
+        }, this);
+    };
+    GlobeController.prototype.TrackTouchPoint = function (touch) {
+        this.TouchingPoints.push(touch);
+    };
+    GlobeController.prototype.TryRemoveTouchingPoint = function (touch) {
+        var touch_id = touch.getID();
+        var idx = 0;
+        while (idx < this.TouchingPoints.length) {
+            var id = this.TouchingPoints[idx].getID();
+            if (id == touch_id) {
+                this.TouchingPoints.splice(idx, 1);
+                break;
+            }
+            else {
+                idx++;
+            }
+        }
+    };
+    GlobeController.prototype.TouchZoom = function () {
+        if (this.TouchingPoints.length == 2) {
+            var old_location_1 = this.TouchingPoints[0].getPreviousLocation();
+            var old_location_2 = this.TouchingPoints[1].getPreviousLocation();
+            var new_location_1 = this.TouchingPoints[0].getLocation();
+            var new_location_2 = this.TouchingPoints[1].getLocation();
+            var x1 = old_location_1.x - old_location_2.x;
+            var y1 = old_location_1.y - old_location_2.y;
+            var x2 = new_location_1.x - new_location_2.x;
+            var y2 = new_location_1.y - new_location_2.y;
+            var old_area = Math.sqrt(Math.pow(x1, 2) + Math.pow(y1, 2));
+            var new_area = Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2));
+            var factor = new_area / old_area;
+            factor = 1 + (factor - 1) * 0.5;
+            // this.debug_label.string = (new_area/old_area).toString();
+            var scale = this.GlobePanel.scale * factor;
+            this.GlobeZoom(scale);
         }
     };
     //#endregion
     //#region Test
     GlobeController.prototype.Test2 = function () {
-        var delta = new cc.Vec2(-190, 0);
-        this.SetMapPosition(delta);
+        // let delta:cc.Vec2 = new cc.Vec2(-190,0);
+        // this.DragMap(delta.x);
+        this.GlobeZoom(this.GlobePanel.scale - 0.1);
     };
     GlobeController.prototype.Test3 = function () {
-        // this.dragon.dragonAtlasAsset = null;
-        this.GlobePanel.setScale(this.GlobePanel.scale + 0.1);
+        this.GlobeZoom(this.GlobePanel.scale + 0.1);
     };
     __decorate([
         property(cc.Node)
@@ -207,7 +296,7 @@ var GlobeController = /** @class */ (function (_super) {
         property(cc.Node)
     ], GlobeController.prototype, "CityNodeTemplate", void 0);
     __decorate([
-        property(cc.Label)
+        property(cc.Node)
     ], GlobeController.prototype, "CityLabelTemplate", void 0);
     __decorate([
         property(cc.Node)

@@ -3,11 +3,11 @@
   "_name": "WorldMapDragon_tex",
   "_objFlags": 0,
   "_native": "",
-  "_atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":1000,\"name\":\"WorldMapHalf\",\"height\":1000}],\"width\":1024,\"name\":\"WorldMapDragon\",\"imagePath\":\"WorldMapDragon_tex.png\",\"height\":1024}",
+  "_atlasJson": "{\"width\":500,\"height\":500,\"name\":\"WorldMapDragon\",\"imagePath\":\"WorldMapDragon_tex.jpg\",\"SubTexture\":[{\"x\":0,\"y\":0,\"width\":500,\"height\":500,\"name\":\"WorldMapHalf\"}]}",
   "_texture": {
-    "__uuid__": "aad28cb3-ca3a-4384-98dc-3787444bb860"
+    "__uuid__": "e362e402-371f-4903-b581-28ead68f5247"
   },
   "texture": {
-    "__uuid__": "aad28cb3-ca3a-4384-98dc-3787444bb860"
+    "__uuid__": "e362e402-371f-4903-b581-28ead68f5247"
   }
 }

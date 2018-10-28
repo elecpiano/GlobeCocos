@@ -1,7 +1,7 @@
 {
   "ver": "1.0.0",
   "uuid": "64b9c3b3-e790-4284-9cef-cfb204e09744",
-  "atlasJson": "{\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":1000,\"name\":\"WorldMapHalf\",\"height\":1000}],\"width\":1024,\"name\":\"WorldMapDragon\",\"imagePath\":\"WorldMapDragon_tex.png\",\"height\":1024}",
-  "texture": "aad28cb3-ca3a-4384-98dc-3787444bb860",
+  "atlasJson": "{\"width\":500,\"height\":500,\"name\":\"WorldMapDragon\",\"imagePath\":\"WorldMapDragon_tex.jpg\",\"SubTexture\":[{\"x\":0,\"y\":0,\"width\":500,\"height\":500,\"name\":\"WorldMapHalf\"}]}",
+  "texture": "e362e402-371f-4903-b581-28ead68f5247",
   "subMetas": {}
 }

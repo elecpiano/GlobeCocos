@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "c9792d45-ae1b-441a-9d80-273dc84ab84d",
+  "uuid": "4d0c6ab5-4622-4a86-a74e-2c75f0b38e6c",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "WorldMap": {
+    "WorldMap_2": {
       "ver": "1.0.3",
-      "uuid": "f71f3183-f16e-496a-9ebb-56b8b2aed95b",
-      "rawTextureUuid": "c9792d45-ae1b-441a-9d80-273dc84ab84d",
+      "uuid": "785b4896-b3c6-4ba8-91d9-e1cee0d0bac2",
+      "rawTextureUuid": "4d0c6ab5-4622-4a86-a74e-2c75f0b38e6c",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

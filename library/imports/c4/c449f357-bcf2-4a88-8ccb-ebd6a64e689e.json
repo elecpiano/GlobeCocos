@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "ShadowBelow",
+    "texture": "f650691f-4418-4a68-a67d-572dfba76a13",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      365,
+      128
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      365,
+      128
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

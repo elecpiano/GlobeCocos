@@ -1,22 +1,22 @@
 {
   "__type__": "cc.SpriteFrame",
   "content": {
-    "name": "WorldMap2",
-    "texture": "513b731d-3046-4129-bc81-038eee4c8eb2",
+    "name": "CityDot",
+    "texture": "ebc3f349-d244-4fb2-859f-d71126d8bad6",
     "atlas": "",
     "rect": [
       0,
       0,
-      960,
-      640
+      96,
+      96
     ],
     "offset": [
       0,
       0
     ],
     "originalSize": [
-      960,
-      640
+      96,
+      96
     ],
     "capInsets": [
       0,
