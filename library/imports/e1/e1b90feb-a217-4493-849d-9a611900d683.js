@@ -25,7 +25,7 @@ var GlobeController = /** @class */ (function (_super) {
         _this.CityLabelOffsetH = 0;
         _this.CityLabelOffsetV = 50;
         _this.CityLabelOffsetV_MAX = 50;
-        _this.CITY_LABEL_SCALE_MAX = 1.5;
+        _this.CITY_LABEL_SCALE_MAX = 1.3;
         _this.CAM = null;
         _this.RTXT = null;
         _this.MapSwitchThreshold = 200;
@@ -33,7 +33,7 @@ var GlobeController = /** @class */ (function (_super) {
         _this.CityNodeList2 = new Array();
         _this.CityLabelList = new Array();
         _this.GlobeAutoSpinning = true;
-        _this.GLOBE_AUTO_SPIN_SPEED = 20;
+        _this.GLOBE_AUTO_SPIN_SPEED = 90;
         _this.TouchingPoints = new Array();
         return _this;
         //#endregion

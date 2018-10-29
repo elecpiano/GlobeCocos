@@ -44,7 +44,7 @@ export default class GlobeController extends cc.Component {
     CityLabelOffsetH:number = 0;
     CityLabelOffsetV:number = 50;
     CityLabelOffsetV_MAX:number = 50;
-    CITY_LABEL_SCALE_MAX = 1.5;
+    CITY_LABEL_SCALE_MAX = 1.3;
 
     CAM:cc.Camera = null;
     RTXT:cc.RenderTexture = null;
@@ -55,7 +55,7 @@ export default class GlobeController extends cc.Component {
     CityLabelList = new Array<cc.Node>();
 
     GlobeAutoSpinning:boolean = true;
-    GLOBE_AUTO_SPIN_SPEED:number = 20;
+    GLOBE_AUTO_SPIN_SPEED:number = 90;
     //#endregion
 
     //#region Lifecycle
