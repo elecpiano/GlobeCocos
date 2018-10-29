@@ -25,7 +25,7 @@ var GlobeController = /** @class */ (function (_super) {
         _this.CityLabelOffsetH = 0;
         _this.CityLabelOffsetV = 50;
         _this.CityLabelOffsetV_MAX = 50;
-        _this.CITY_LABEL_SCALE_MAX = 1.3;
+        _this.LBS_TAG_SCALE_MAX = 1.3;
         _this.CAM = null;
         _this.RTXT = null;
         _this.MapSwitchThreshold = 200;
@@ -137,13 +137,24 @@ var GlobeController = /** @class */ (function (_super) {
             }
         }
     };
-    GlobeController.prototype.OptimizeLabelFontSize = function (scale) {
-        if (scale > this.CITY_LABEL_SCALE_MAX) {
-            this.CityLabelOffsetV = this.CityLabelOffsetV_MAX * this.CITY_LABEL_SCALE_MAX / scale;
-            for (var _i = 0, _a = this.CityLabelList; _i < _a.length; _i++) {
+    GlobeController.prototype.OptimizeLBSTagSize = function (scale) {
+        var proper_scale = this.LBS_TAG_SCALE_MAX / scale;
+        if (scale > this.LBS_TAG_SCALE_MAX) {
+            for (var _i = 0, _a = this.CityNodeList1; _i < _a.length; _i++) {
                 var city = _a[_i];
-                var wrapper = city.getChildByName("label_wrapper");
-                wrapper.setScale(this.CITY_LABEL_SCALE_MAX / scale);
+                var wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
+            }
+            for (var _b = 0, _c = this.CityNodeList2; _b < _c.length; _b++) {
+                var city = _c[_b];
+                var wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
+            }
+            this.CityLabelOffsetV = this.CityLabelOffsetV_MAX * proper_scale;
+            for (var _d = 0, _e = this.CityLabelList; _d < _e.length; _d++) {
+                var city = _e[_d];
+                var wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
             }
         }
         else {
@@ -152,7 +163,7 @@ var GlobeController = /** @class */ (function (_super) {
     };
     GlobeController.prototype.GlobeZoom = function (scale) {
         this.GlobePanel.setScale(scale);
-        this.OptimizeLabelFontSize(scale);
+        this.OptimizeLBSTagSize(scale);
     };
     //#endregion
     //#region City

@@ -44,8 +44,8 @@ export default class GlobeController extends cc.Component {
     CityLabelOffsetH:number = 0;
     CityLabelOffsetV:number = 50;
     CityLabelOffsetV_MAX:number = 50;
-    CITY_LABEL_SCALE_MAX = 1.3;
-
+    LBS_TAG_SCALE_MAX = 1.3;
+    
     CAM:cc.Camera = null;
     RTXT:cc.RenderTexture = null;
     MapSwitchThreshold:number = 200;
@@ -179,12 +179,23 @@ export default class GlobeController extends cc.Component {
         }
     }
 
-    OptimizeLabelFontSize(scale: number){
-        if (scale > this.CITY_LABEL_SCALE_MAX) {
-            this.CityLabelOffsetV = this.CityLabelOffsetV_MAX * this.CITY_LABEL_SCALE_MAX / scale;
+    OptimizeLBSTagSize(scale: number){
+        let proper_scale = this.LBS_TAG_SCALE_MAX / scale;
+        if (scale > this.LBS_TAG_SCALE_MAX) {
+            for (let city of this.CityNodeList1) {
+                let wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
+            }
+    
+            for (let city of this.CityNodeList2) {
+                let wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
+            }
+
+            this.CityLabelOffsetV = this.CityLabelOffsetV_MAX * proper_scale;
             for (let city of this.CityLabelList) {
-                let wrapper = city.getChildByName("label_wrapper");
-                wrapper.setScale(this.CITY_LABEL_SCALE_MAX / scale);
+                let wrapper = city.getChildByName("wrapper");
+                wrapper.setScale(proper_scale);
             }
         }
         else{
@@ -194,7 +205,7 @@ export default class GlobeController extends cc.Component {
 
     GlobeZoom(scale:number){
         this.GlobePanel.setScale(scale);
-        this.OptimizeLabelFontSize(scale);
+        this.OptimizeLBSTagSize(scale);
     }
 
     //#endregion

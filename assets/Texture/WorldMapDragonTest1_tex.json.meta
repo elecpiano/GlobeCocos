@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "56e11023-70c3-490b-bd3b-daca34d013db",
+  "atlasJson": "{\"imagePath\":\"WorldMapDragonTest1_tex.png\",\"width\":512,\"name\":\"WorldMapDragonTest1\",\"SubTexture\":[{\"x\":1,\"y\":1,\"width\":500,\"name\":\"WorldMapDragon\",\"height\":500}],\"height\":512}",
+  "texture": "223f3885-3051-4c8b-be70-3019ed00ada1",
+  "subMetas": {}
+}
